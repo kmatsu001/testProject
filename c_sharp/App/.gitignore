@@ -1,0 +1,36 @@
+# ビルド結果
+/bin
+/obj
+/out
+
+# ユーザー固有の設定ファイル
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ログファイル
+*.log
+
+# パッケージ
+/packages
+*.nupkg
+*.snupkg
+
+# プロジェクトファイル
+.project
+.idea
+.vscode
+
+# その他無視するファイルやディレクトリ
+/Properties/PublishProfiles
+
+# リリースフォルダ
+/release
+
+# Test結果
+/test
+
+# ライブラリ
+/lib

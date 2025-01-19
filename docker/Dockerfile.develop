@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /App
+EXPOSE 5001
+
+# ビルド用のステージ
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /App
+
+# プロジェクトファイルを最初にコピー
+COPY *.csproj ./
+
+# 残りのソースコードをコピー
+COPY . ./
+# リリースビルドを実行し、アウトプットを out ディレクトリに出力
+# RUN dotnet publish -c Release -o out
+
+# 実行環境用のステージ
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# WORKDIR /App
+# ビルド成果物をコピー
+# COPY --from=build-env /App/out .
+# アプリを実行
+# ENTRYPOINT ["dotnet", "WebApp.dll"]

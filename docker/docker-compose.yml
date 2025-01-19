@@ -1,0 +1,68 @@
+services:
+  frontend:
+    container_name: frontend
+    # 起動するイメージを指定（ここではNode.js v12の公式イメージ）
+    image: node:22
+
+    # 環境変数を設定
+    environment:
+      - DEBUG=app:*
+
+    tty: true
+
+    # ホスト側のポート:コンテナのポート
+    ports:
+      - "3000:3000"
+
+    # ソースコードを格納するフォルダをマウント
+    #（ホスト側の./srcをコンテナの/appにマウント）
+    volumes:
+      - ../docker-nodejs/nextjs:/app
+
+    # 起動時のカレントフォルダを指定
+    working_dir: /app
+    networks:
+      - net-net
+    depends_on:
+      - backend
+    #command: npm start
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile.develop
+    ports:
+      - "5002:5002"
+    networks:
+      - net-net
+    depends_on:
+      - db
+    volumes:
+      - ../c_sharp/App:/App
+    command: /bin/sh -c "dotnet watch run"
+    # environment:
+    #  - ASPNETCORE_URLS=http://+:5001
+
+  db:
+    container_name: database
+    platform: linux/x86_64
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - net-net
+
+networks:
+  net-net:
+    driver: bridge
