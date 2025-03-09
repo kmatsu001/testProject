@@ -33,7 +33,7 @@ services:
       context: .
       dockerfile: Dockerfile.develop
     ports:
-      - "5002:5002"
+      - "5003:5002"
     networks:
       - net-net
     depends_on:
@@ -41,8 +41,8 @@ services:
     volumes:
       - ../c_sharp/App:/App
     command: /bin/sh -c "dotnet watch run"
-    # environment:
-    #  - ASPNETCORE_URLS=http://+:5001
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:5002
 
   db:
     container_name: database
@@ -58,8 +58,8 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     volumes:
       - ./mysql/data:/var/lib/mysql
-      - ./mysql/init:/docker-entrypoint-initdb.d
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - net-net
 

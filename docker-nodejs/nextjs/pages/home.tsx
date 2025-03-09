@@ -21,10 +21,10 @@ import {
   handleDialogClose,
   handleSuccess,
 } from "@/services/homeService";
-import { TestType } from "@/types/test";
+import { SampleType } from "@/types/sample";
 
 const Home = () => {
-  const [items, setItems] = useState<TestType[]>([]); // itemsステートを初期化
+  const [items, setItems] = useState<SampleType[]>([]); // itemsステートを初期化
   const [dialogOpen, setDialogOpen] = useState(false); // ダイアログのステートを初期化
 
   useEffect(() => {
@@ -34,14 +34,20 @@ const Home = () => {
   // items を DataGrid 用のデータに変換
   const rows = items.map((item, index) => ({
     id: item.id,
-    name: item.name,
-    date: item.createdDate,
+    sei: item.sei,
+    mei: item.mei,
+    address: item.address,
+    city: item.city,
+    email: item.email,
+    phone_number: item.phone_number,
+    created_at: item.created_at,
+    updated_at: item.updated_at,
   }));
 
   return (
     <div>
       {/* ヘッダーコンポーネント */}
-      <HeaderDiv title="Items" />
+      <HeaderDiv title="DBテスト連携システム" />
       <Button
         variant="contained"
         color="primary"

@@ -17,7 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TestProject.Models;
-using TestProject.Repository;
 
 public class Startup
 {
@@ -59,8 +58,8 @@ public class Startup
                 Configuration.GetConnectionString("DefaultConnection"),
                 new MySqlServerVersion(new Version(5, 7, 0))));
 
-        // リポジトリを登録
-        services.AddScoped<TestRepository>();
+        // サービスを登録
+        services.AddScoped<TestProject.Services.SampleService>();
 
         // 他のサービスの設定
         services.AddControllers();

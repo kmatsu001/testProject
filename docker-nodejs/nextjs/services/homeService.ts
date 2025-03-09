@@ -9,6 +9,7 @@
  * 作成日: 2025/1/19
  */
 
+import { SampleType } from "@/types/sample";
 import { fetchItems } from "./apiService";
 import { TestType } from "@/types/test";
 
@@ -20,7 +21,7 @@ import { TestType } from "@/types/test";
  * @param setItems - itemsステートを更新するための関数
  */
 export const initializeItems = async (
-  setItems: React.Dispatch<React.SetStateAction<TestType[]>>
+  setItems: React.Dispatch<React.SetStateAction<SampleType[]>>
 ) => {
   try {
     const data = await fetchItems(); // データをAPIから取得
@@ -64,7 +65,7 @@ export const handleDialogClose = (
  * @param setItems - itemsステートを更新するための関数
  */
 export const handleSuccess = async (
-  setItems: React.Dispatch<React.SetStateAction<TestType[]>>
+  setItems: React.Dispatch<React.SetStateAction<SampleType[]>>
 ) => {
   const data = await fetchItems(); // データを再取得
   setItems(data); // ステートを更新

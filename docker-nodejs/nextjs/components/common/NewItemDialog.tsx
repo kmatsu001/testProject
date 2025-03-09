@@ -19,32 +19,71 @@ import {
   Button,
 } from "@mui/material";
 import { createItem } from "@/services/apiService";
+import { FormDataType } from "@/types/formData";
 
-// NewItemDialogコンポーネントのプロパティ型定義
 interface NewItemDialogProps {
   open: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-// NewItemDialogコンポーネントの定義
 const NewItemDialog: React.FC<NewItemDialogProps> = ({
   open,
   onClose,
   onSuccess,
 }) => {
-  const [name, setName] = useState(""); // 名前のステートを初期化
+  const [formData, setFormData] = useState({
+    sei: "",
+    mei: "",
+    email: "",
+    phone_number: "",
+    address: "",
+    city: "",
+  });
 
-  // フォーム送信時の処理
+  const [errors, setErrors] = useState({
+    sei: false,
+    mei: false,
+    email: false,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // 必須項目やフォーマットのチェック
+    if (name === "sei" || name === "mei") {
+      setErrors((prev) => ({ ...prev, [name]: value.trim() === "" }));
+    }
+
+    if (name === "email") {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setErrors((prev) => ({
+        ...prev,
+        email: !emailPattern.test(value) && value !== "",
+      }));
+    }
+  };
+
   const handleSubmit = async () => {
+    // 必須項目チェック
+    if (!formData.sei.trim() || !formData.mei.trim()) {
+      setErrors({
+        sei: formData.sei.trim() === "",
+        mei: formData.mei.trim() === "",
+        email: errors.email,
+      });
+      return;
+    }
+
     try {
-      const response = await createItem(name);
-      if (response) {
-        onSuccess(); // 登録成功時のコールバックを呼び出す
-        onClose(); // ダイアログを閉じる
-      }
+      // apiService経由でcreateItemを呼び出し
+      await createItem(formData);
+
+      onSuccess(); // 登録成功時のコールバック
+      onClose(); // ダイアログを閉じる
     } catch (error) {
-      console.error("Error creating item:", error); // エラーをログに表示
+      console.error("Error creating item:", error);
     }
   };
 
@@ -58,12 +97,71 @@ const NewItemDialog: React.FC<NewItemDialogProps> = ({
         <TextField
           autoFocus
           margin="dense"
-          label="name"
+          name="sei"
+          label="姓 (必須)"
           type="text"
           fullWidth
           variant="outlined"
-          value={name}
-          onChange={(e) => setName(e.target.value)} // 入力値の変更をステートに反映
+          value={formData.sei}
+          onChange={handleChange}
+          error={errors.sei}
+          helperText={errors.sei ? "姓を入力してください" : ""}
+        />
+        <TextField
+          margin="dense"
+          name="mei"
+          label="名 (必須)"
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={formData.mei}
+          onChange={handleChange}
+          error={errors.mei}
+          helperText={errors.mei ? "名を入力してください" : ""}
+        />
+        <TextField
+          margin="dense"
+          name="email"
+          label="メールアドレス"
+          type="email"
+          fullWidth
+          variant="outlined"
+          value={formData.email}
+          onChange={handleChange}
+          error={errors.email}
+          helperText={
+            errors.email ? "正しいメールアドレスを入力してください" : ""
+          }
+        />
+        <TextField
+          margin="dense"
+          name="phone_number"
+          label="電話番号"
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={formData.phone_number}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="dense"
+          name="address"
+          label="住所"
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={formData.address}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="dense"
+          name="city"
+          label="市区町村"
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={formData.city}
+          onChange={handleChange}
         />
       </DialogContent>
       <DialogActions>

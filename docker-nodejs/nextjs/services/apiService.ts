@@ -12,7 +12,8 @@ import {
   fetchItems,
   updateItem,
   createItem,
-} from "../repository/testRepository";
+  deleteItem,
+} from "../repository/sampleRepository";
 
 // インポートした関数をエクスポート
-export { fetchItems, updateItem, createItem };
+export { fetchItems, updateItem, createItem, deleteItem };

@@ -17,7 +17,7 @@ namespace TestProject.Models
     /// MyDbContext
     /// 
     /// このクラスは、ASP.NET CoreアプリケーションのEntity Framework Coreデータベースコンテキストです。
-    /// TestモデルのDbSetを定義し、データベースのTestテーブルに対するCRUD操作を可能にします。
+    /// TestモデルのDbSetを定義し、データベースのSampleテーブルに対するCRUD操作を可能にします。
     /// 
     /// 作成者: kazuki.matsuoka
     /// 作成日: 2025/1/19
@@ -31,8 +31,8 @@ namespace TestProject.Models
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
         /// <summary>
-        /// TestモデルのDbSetを定義
+        /// SampleTableモデルのDbSetを定義
         /// </summary>
-        public DbSet<Test> Test { get; set; }
+        public DbSet<SampleTable> SampleTable { get; set; }
     }
 }
