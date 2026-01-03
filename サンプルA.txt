@@ -37,9 +37,10 @@ import UserStatus from './UserStatus';
 function App() {
   return (
     <div>
-      <UserStatus name="Kazuki" />
+      <UserStatus name="松岡" />
     </div>
   );
 }
 
 export default App;
+
