@@ -1,3 +1,4 @@
+----------------------------------------------------------------------
 // UserStatus.jsx
 import React, { useState, useEffect } from 'react';
 
@@ -26,3 +27,19 @@ function UserStatus({ name }) {
 }
 
 export default UserStatus;
+
+----------------------------------------------------------------------
+
+// App.jsx（表示側）
+import React from 'react';
+import UserStatus from './UserStatus';
+
+function App() {
+  return (
+    <div>
+      <UserStatus name="Kazuki" />
+    </div>
+  );
+}
+
+export default App;
