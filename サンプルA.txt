@@ -1,0 +1,28 @@
+// UserStatus.jsx
+import React, { useState, useEffect } from 'react';
+
+// Props: name（ユーザー名）を外部から受け取る
+function UserStatus({ name }) {
+  // State: ログイン状態を管理
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Hooks: 副作用処理（初回レンダリング時にログイン状態を取得）
+  useEffect(() => {
+    // 仮のログイン判定（実務ではAPI呼び出しなど）
+    const timer = setTimeout(() => {
+      setIsLoggedIn(true);
+    }, 1000);
+
+    return () => clearTimeout(timer); // クリーンアップ
+  }, []);
+
+  // JSX: 表示定義
+  return (
+    <div>
+      <h2>Hello, {name}</h2>
+      <p>Status: {isLoggedIn ? 'Logged In ✅' : 'Checking...'}</p>
+    </div>
+  );
+}
+
+export default UserStatus;
